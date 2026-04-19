@@ -7,7 +7,7 @@ export default function LetsTalkPage() {
       <main className="hero-shell talk-shell">
         <header className="site-header">
           <Link className="logo" to="/">
-            rozeedio.
+            zeileet.
           </Link>
 
           <div className="header-actions">
@@ -65,7 +65,7 @@ export default function LetsTalkPage() {
             <h2>Contact</h2>
             <div className="talk-line">
               <Mail size={18} />
-              <span>hello@rozeedio.com</span>
+              <span>hello@zeileet.com</span>
             </div>
             <div className="talk-line">
               <Phone size={18} />

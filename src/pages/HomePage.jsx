@@ -1,17 +1,22 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import {
   ArrowRight,
+  Calendar,
   CodeXml,
   Globe,
+  Mail,
   Menu,
   MessageCircle,
+  Phone,
   Rocket,
+  Sparkles,
   Smartphone,
   X,
 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import logoPng from '../assets/zeileet logo.png'
 
 const serviceCards = [
   {
@@ -36,6 +41,11 @@ const serviceCards = [
 
 const projects = [
   {
+    name: 'JkssbPrep',
+    type: 'Exam preparation platform website',
+    url: 'https://www.jkssbprep.in/',
+  },
+  {
     name: 'Nexa Commerce',
     type: 'Headless commerce website',
   },
@@ -54,20 +64,30 @@ export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useLayoutEffect(() => {
-    gsap.registerPlugin(ScrollTrigger)
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches
+    const smoothHandlers = []
 
     const root = pageRef.current
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
       tl.from('.hero-shell', {
-        y: 42,
+        y: 34,
         opacity: 0,
-        duration: 0.9,
+        duration: 1,
       })
+        .from(
+          '.cinematic-wipe',
+          {
+            yPercent: 0,
+            duration: 1.05,
+            ease: 'power4.inOut',
+          },
+          '<',
+        )
         .from(
           '.site-header, .hero-intro',
           {
@@ -83,6 +103,7 @@ export default function HomePage() {
           {
             yPercent: 100,
             opacity: 0,
+            filter: 'blur(5px)',
             duration: 0.7,
             stagger: 0.08,
           },
@@ -98,6 +119,19 @@ export default function HomePage() {
           },
           '-=0.4',
         )
+
+      gsap.utils.toArray('.section-block').forEach((section) => {
+        gsap.from(section, {
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 84%',
+          },
+          y: 52,
+          opacity: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+        })
+      })
 
       gsap.from('.service-card', {
         scrollTrigger: {
@@ -123,6 +157,77 @@ export default function HomePage() {
       })
 
       if (!prefersReducedMotion) {
+        gsap.to('.hero-mobile', {
+          y: -40,
+          scrollTrigger: {
+            trigger: '.hero-shell',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.2,
+          },
+        })
+
+        gsap.to('.motion-orb-a', {
+          x: 40,
+          y: -26,
+          scale: 1.06,
+          duration: 4.6,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+        })
+
+        gsap.to('.motion-orb-b', {
+          x: -44,
+          y: 22,
+          scale: 1.12,
+          duration: 5.3,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+        })
+
+        gsap.to('.motion-light', {
+          xPercent: 42,
+          duration: 7,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+        })
+      }
+
+      const anchorLinks = gsap.utils.toArray('a[href^="#"]')
+
+      if (!prefersReducedMotion) {
+        anchorLinks.forEach((link) => {
+          const href = link.getAttribute('href')
+          if (!href || href.length <= 1) {
+            return
+          }
+
+          const target = document.querySelector(href)
+          if (!target) {
+            return
+          }
+
+          const handler = (event) => {
+            event.preventDefault()
+            gsap.to(window, {
+              duration: 1.1,
+              ease: 'power3.inOut',
+              scrollTo: {
+                y: target,
+                offsetY: 18,
+              },
+            })
+          }
+
+          smoothHandlers.push({ link, handler })
+          link.addEventListener('click', handler)
+        })
+      }
+
+      if (!prefersReducedMotion) {
         gsap.to('.section-rocket', {
           y: -5,
           rotate: 10,
@@ -136,7 +241,12 @@ export default function HomePage() {
       }
     }, root)
 
-    return () => ctx.revert()
+    return () => {
+      smoothHandlers.forEach(({ link, handler }) => {
+        link.removeEventListener('click', handler)
+      })
+      ctx.revert()
+    }
   }, [])
 
   useEffect(() => {
@@ -157,16 +267,24 @@ export default function HomePage() {
 
   return (
     <div className="page" ref={pageRef}>
+      <div className="motion-canvas" aria-hidden="true">
+        <span className="motion-orb motion-orb-a" />
+        <span className="motion-orb motion-orb-b" />
+        <span className="motion-light" />
+      </div>
+      <div className="cinematic-wipe" aria-hidden="true" />
+
       <main className="hero-shell">
         <header className="site-header">
           <a className="logo" href="#home">
-            rozeedio.
+            <img className="brand-logo" src={logoPng} alt="Zeileet logo" />
+            zeileet.
           </a>
 
           <div className="header-actions">
-            <Link className="pill-btn" to="/lets-talk">
+            <a className="pill-btn" href="#hey-there">
               Hey There <MessageCircle size={17} strokeWidth={2.2} />
-            </Link>
+            </a>
             <button
               className="icon-btn"
               type="button"
@@ -196,12 +314,12 @@ export default function HomePage() {
             <a href="#home" onClick={() => setIsMenuOpen(false)}>
               Home
             </a>
-            <Link to="/founder" onClick={() => setIsMenuOpen(false)}>
+            <a href="#founder" onClick={() => setIsMenuOpen(false)}>
               Founder
-            </Link>
-            <Link to="/lets-talk" onClick={() => setIsMenuOpen(false)}>
+            </a>
+            <a href="#hey-there" onClick={() => setIsMenuOpen(false)}>
               <MessageCircle size={16} /> Hey There
-            </Link>
+            </a>
             <a href="#services" onClick={() => setIsMenuOpen(false)}>
               Services
             </a>
@@ -211,14 +329,14 @@ export default function HomePage() {
           </nav>
           <div className="menu-card">
             <p>Let&apos;s build your next website or Expo app together.</p>
-            <Link className="cta-dark" to="/lets-talk" onClick={() => setIsMenuOpen(false)}>
+            <a className="cta-dark" href="#hey-there" onClick={() => setIsMenuOpen(false)}>
               Book a Call <ArrowRight size={17} />
-            </Link>
+            </a>
           </div>
         </aside>
 
         <section className="hero" id="home">
-          <p className="hero-intro">Hello! We are Rozeedio.</p>
+          <p className="hero-intro">Hello! We are Zeileet.</p>
 
           <h1 className="hero-title">
             <span className="hero-line">Designing and building software products</span>
@@ -227,18 +345,14 @@ export default function HomePage() {
           </h1>
 
           <div className="hero-meta">
-            <Link className="cta-dark hero-cta" to="/lets-talk">
+            <a className="cta-dark hero-cta" href="#hey-there">
               Start a Project <ArrowRight size={18} />
-            </Link>
-            <p className="hero-copy">
-              A fully remote software development company crafting modern websites and
-              Expo apps for Android and iOS.
-            </p>
+            </a>
           </div>
 
           <aside className="hero-mobile" aria-hidden="true">
             <div className="phone-notch" />
-            <p className="phone-eyebrow">rozeedio.</p>
+            <p className="phone-eyebrow">zeileet.</p>
             <p className="phone-heading">Web + Mobile</p>
             <p className="phone-highlight">Expo apps</p>
             <p className="phone-small">Android and iOS ready</p>
@@ -272,11 +386,125 @@ export default function HomePage() {
           <div className="projects-list">
             {projects.map((project) => (
               <article className="project-item" key={project.name}>
-                <h3>{project.name}</h3>
+                <h3>
+                  {project.url ? (
+                    <a
+                      className="project-link"
+                      href={project.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {project.name}
+                    </a>
+                  ) : (
+                    project.name
+                  )}
+                </h3>
                 <p>{project.type}</p>
-                <ArrowRight size={16} />
+                {project.url ? (
+                  <a href={project.url} target="_blank" rel="noreferrer" aria-label={`Open ${project.name}`}>
+                    <ArrowRight size={16} />
+                  </a>
+                ) : (
+                  <ArrowRight size={16} />
+                )}
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="section-block" id="founder">
+          <div className="founder-hero">
+            <p className="founder-eyebrow">
+              <Sparkles size={16} /> Founder Story
+            </p>
+            <h2 className="founder-title">Built remote-first, led by product obsession.</h2>
+            <p className="founder-copy">
+              Founder and CEO, also Developer, is ZEESHAN TEELI. Zeileet is led with a
+              hands-on product mindset focused on turning ideas into production-ready
+              digital products for web and mobile.
+            </p>
+            <div className="founder-stats">
+              <article>
+                <h2>20+</h2>
+                <p>Products launched</p>
+              </article>
+              <article>
+                <h2>100%</h2>
+                <p>Remote delivery model</p>
+              </article>
+              <article>
+                <h2>Web + Mobile</h2>
+                <p>Core specialization</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="section-block" id="hey-there">
+          <div className="talk-hero">
+            <p className="talk-eyebrow">
+              <MessageCircle size={15} /> Hey There
+            </p>
+            <h2 className="talk-title">Tell us what you want to build.</h2>
+            <p className="talk-copy">
+              We build modern websites and Expo apps for Android and iOS. Share your
+              idea, timeline, and goals, and we will reply with a clear execution plan.
+            </p>
+          </div>
+
+          <div className="talk-grid">
+            <div className="talk-card">
+              <h2>Project Brief</h2>
+              <form className="talk-form" onSubmit={(event) => event.preventDefault()}>
+                <label>
+                  Full Name
+                  <input type="text" placeholder="Your name" />
+                </label>
+                <label>
+                  Email
+                  <input type="email" placeholder="you@company.com" />
+                </label>
+                <label>
+                  Project Type
+                  <select defaultValue="Website">
+                    <option>Website</option>
+                    <option>Expo App (Android + iOS)</option>
+                    <option>Website + Mobile App</option>
+                  </select>
+                </label>
+                <label>
+                  Message
+                  <textarea
+                    rows="5"
+                    placeholder="Tell us about your product, features, and expected deadline."
+                  />
+                </label>
+                <button className="cta-dark" type="submit">
+                  Send Inquiry <ArrowRight size={17} />
+                </button>
+              </form>
+            </div>
+
+            <aside className="talk-card talk-side">
+              <h2>Contact</h2>
+              <div className="talk-line">
+                <Mail size={18} />
+                <span>hello@zeileet.com</span>
+              </div>
+              <div className="talk-line">
+                <Phone size={18} />
+                <span>Remote worldwide collaboration</span>
+              </div>
+              <div className="talk-line">
+                <Calendar size={18} />
+                <span>Typical first response in 24 hours</span>
+              </div>
+              <div className="talk-line">
+                <MessageCircle size={18} />
+                <span>Discovery call + project roadmap</span>
+              </div>
+            </aside>
           </div>
         </section>
       </main>

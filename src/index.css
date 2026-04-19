@@ -22,6 +22,10 @@ body,
   min-height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Outfit', sans-serif;
   background: #000000;
@@ -33,17 +37,70 @@ body {
   min-height: 100vh;
   overflow-x: clip;
   padding: 3.5rem 1rem;
+  isolation: isolate;
 }
 
 .hero-shell {
   width: min(1120px, 100%);
   margin: 0 auto;
   position: relative;
+  z-index: 2;
   background: linear-gradient(180deg, #f6f6f6 0%, #efefef 100%);
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 1.2rem;
   padding: 2rem clamp(1.1rem, 4vw, 3rem) 2.4rem;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+}
+
+.motion-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.motion-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(56px);
+  opacity: 0.65;
+}
+
+.motion-orb-a {
+  width: min(32vw, 400px);
+  aspect-ratio: 1;
+  top: 6%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 72%);
+}
+
+.motion-orb-b {
+  width: min(38vw, 460px);
+  aspect-ratio: 1;
+  right: -14%;
+  top: 32%;
+  background: radial-gradient(circle, rgba(148, 152, 161, 0.34) 0%, rgba(148, 152, 161, 0) 72%);
+}
+
+.motion-light {
+  position: absolute;
+  top: -10%;
+  left: -40%;
+  width: 38%;
+  height: 140%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0));
+  transform: rotate(12deg);
+  filter: blur(12px);
+}
+
+.cinematic-wipe {
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  transform: translateY(-102%);
+  pointer-events: none;
+  z-index: 40;
 }
 
 .founder-shell {
@@ -323,11 +380,21 @@ body {
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   text-decoration: none;
   font-weight: 700;
   font-size: 1.25rem;
   color: var(--text);
   letter-spacing: -0.02em;
+}
+
+.brand-logo {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  object-fit: cover;
 }
 
 .header-actions {
@@ -478,6 +545,7 @@ body {
 
 .section-block {
   margin-top: clamp(3.2rem, 8vw, 5rem);
+  will-change: transform, opacity;
 }
 
 .section-title-row {
@@ -561,6 +629,18 @@ body {
   font-weight: 700;
 }
 
+.project-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.project-link:hover {
+  color: #151c2d;
+  border-bottom-color: rgba(21, 28, 45, 0.35);
+}
+
 .project-item p {
   margin: 0;
   color: #434a57;
@@ -579,6 +659,22 @@ body {
 }
 
 @media (max-width: 860px) {
+  .motion-orb-a {
+    width: min(62vw, 320px);
+    top: 4%;
+    left: -18%;
+  }
+
+  .motion-orb-b {
+    width: min(72vw, 380px);
+    right: -28%;
+    top: 44%;
+  }
+
+  .motion-light {
+    width: 55%;
+  }
+
   .hero-shell {
     padding: 1.2rem 1rem 1.8rem;
   }

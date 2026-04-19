@@ -26,7 +26,7 @@ export default function FounderPage() {
       <main className="hero-shell founder-shell">
         <header className="site-header">
           <Link className="logo" to="/">
-            rozeedio.
+            zeileet.
           </Link>
 
           <div className="header-actions">
@@ -80,7 +80,7 @@ export default function FounderPage() {
           </p>
           <h1 className="founder-title">Built remote-first, led by product obsession.</h1>
           <p className="founder-copy">
-            Founder and CEO, also Developer, is ZEESHAN TEELI. Rozeedio is led with a
+            Founder and CEO, also Developer, is ZEESHAN TEELI. Zeileet is led with a
             hands-on product mindset focused on turning ideas into production-ready
             digital products for web and mobile.
           </p>
