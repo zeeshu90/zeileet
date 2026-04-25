@@ -330,6 +330,9 @@ export default function HomePage() {
             <Link to="/privacy-policy" onClick={() => setIsMenuOpen(false)}>
               Privacy Policy
             </Link>
+            <Link to="/account-deletion-request" onClick={() => setIsMenuOpen(false)}>
+              Account Deletion
+            </Link>
           </nav>
           <div className="menu-card">
             <p>Let&apos;s build your next website or Expo app together.</p>
@@ -511,6 +514,9 @@ export default function HomePage() {
 
               <Link className="pill-btn talk-home-btn" to="/privacy-policy">
                 Privacy Policy <ArrowRight size={16} />
+              </Link>
+              <Link className="pill-btn" to="/account-deletion-request">
+                Account Deletion <ArrowRight size={16} />
               </Link>
             </aside>
           </div>

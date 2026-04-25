@@ -736,6 +736,128 @@ body {
   font-weight: 600;
 }
 
+.deletion-shell {
+  min-height: min(92vh, 1040px);
+}
+
+.deletion-hero {
+  margin-top: clamp(2rem, 5vw, 3.4rem);
+}
+
+.deletion-eyebrow {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 999px;
+  padding: 0.42rem 0.76rem;
+  background: #f5e9db;
+  color: #4b2f12;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.deletion-title {
+  margin: 1rem 0 0;
+  max-width: 880px;
+  font-size: clamp(2rem, 5.2vw, 4.2rem);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+}
+
+.deletion-copy {
+  margin: 1rem 0 0;
+  max-width: 780px;
+  color: #2e3949;
+  font-size: clamp(1rem, 1.7vw, 1.1rem);
+  line-height: 1.52;
+  font-weight: 500;
+}
+
+.deletion-grid {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 1rem;
+}
+
+.deletion-card {
+  border: 1px solid rgba(8, 12, 24, 0.14);
+  background: #f9f9f9;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.deletion-card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.deletion-card h3 {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.deletion-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.deletion-side ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: #2f3948;
+  line-height: 1.55;
+}
+
+.deletion-side p {
+  margin: 0;
+  color: #2f3948;
+  line-height: 1.48;
+}
+
+.deletion-side a {
+  color: #13243f;
+}
+
+.deletion-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.deletion-checkbox input {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.15rem;
+}
+
+.deletion-success,
+.deletion-error {
+  margin: 0.95rem 0 0;
+  border-radius: 0.8rem;
+  padding: 0.75rem 0.8rem;
+  font-weight: 600;
+}
+
+.deletion-success {
+  border: 1px solid rgba(30, 118, 55, 0.3);
+  background: #eaf6ee;
+  color: #1f5f34;
+}
+
+.deletion-error {
+  border: 1px solid rgba(151, 44, 44, 0.3);
+  background: #fbeaea;
+  color: #8b2f2f;
+}
+
 @media (max-width: 1024px) {
   .hero-mobile {
     width: min(300px, 38vw);
@@ -816,6 +938,10 @@ body {
   }
 
   .privacy-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .deletion-grid {
     grid-template-columns: 1fr;
   }
 }

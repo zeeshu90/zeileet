@@ -62,6 +62,9 @@ export default function PrivacyPolicyPage() {
           </Link>
 
           <div className="header-actions">
+            <Link className="pill-btn" to="/account-deletion-request">
+              Delete Account <ArrowRight size={18} strokeWidth={2.2} />
+            </Link>
             <Link className="pill-btn" to="/">
               Back Home <ArrowRight size={18} strokeWidth={2.2} />
             </Link>
@@ -93,6 +96,10 @@ export default function PrivacyPolicyPage() {
           <p>
             For privacy questions or requests, contact us at{' '}
             <a href="mailto:hello@zeileet.com">hello@zeileet.com</a>.
+          </p>
+          <p>
+            For account deletion requests across any Zeileet product, use the{' '}
+            <Link to="/account-deletion-request">Universal Account Deletion Request page</Link>.
           </p>
         </section>
       </main>
